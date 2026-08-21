@@ -2,6 +2,9 @@
 #include <string>
 #include <fstream>
 #include <limits>
+#include <map>
+#include <iomanip>
+
 using namespace std;
 
 class frontPage{
@@ -290,10 +293,86 @@ class transactions{
     }
     void spendSummary()
     {
+        //Access my transactions
+        ifstream MyFile("transactions.txt");
+        string title, amount, date, category, description, line;
 
+        // Map for our summary
+        map<string, double> summary;
+        
+        //Go through transacltions looking for category name and spend or income earned
+        while(getline(MyFile, title))
+        {
+            if(title.empty())
+            {
+                continue;
+            }
+            
+            getline(MyFile, amount);
+            getline(MyFile, date);
+            getline(MyFile, category);
+            getline(MyFile, description);
+
+            // Once found category and amount add
+            double amountValue = stod(amount);
+            summary[category] += amountValue;
+        }
+
+        MyFile.close();
+
+        //Display Summary
+        cout << endl;
+        cout << "========== Spending Summary ===========" << endl;
+        cout << left << setw(20) << "Category" << right << setw(20) << "Amount" << endl;
+        cout << "------------------------------------------------------------" << endl;
+
+        //Displays all from map
+        for(auto item : summary)
+        {
+            cout << left << setw(20) << item.first << right << setw(10) << "$" << fixed << setprecision(2) << item.second << endl; 
+        }
+        cout << "=============================================" << endl;
     }
 
-    
+    void tools()
+    {
+        int option;
+        cout << "Use any tool you wish to use..." << endl;
+        cout << "Enter and option." << endl;
+        cout << "1. Add a Transaction" << endl;
+        cout << "2. Delete a Transaction" << endl;
+        cout << "3. View all Transactions" << endl;
+        cout << "4. Calculate Total Balance" << endl;
+        cout << "5. Search for a Transaction" << endl;
+        cout << "6. Spend Summary" << endl;
+        cout << "Enter Here: ";
+        cin >> option;
+        cout << endl;
+
+        switch(option)
+        {
+            case 1:
+            addTransaction();
+            break;
+            case 2:
+            deleteTransaction();
+            break;
+            case 3:
+            viewTransations();
+            break;
+            case 4:
+            calculateBalance();
+            break;
+            case 5:
+            searchTransactions();
+            break;
+            case 6:
+            spendSummary();
+            break;
+            Default:
+            cout << "Error: Come again :)" << endl;
+        }
+    }
 };
 
 int main()
@@ -326,10 +405,6 @@ int main()
     }
     checkT.close();
 
-
     transactions part2;
-    // part2.addTransaction();
-    // part2.viewTransations();
-    // part2.calculateBalance();
-    part2.searchTransactions();
+    part2.tools();
 }
