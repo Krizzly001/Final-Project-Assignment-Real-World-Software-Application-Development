@@ -185,7 +185,7 @@ class transactions{
             {
                 continue;
             }
-            //Displats Transactions on screen
+            //Displays Transactions on screen
             cout << "Title: ";
             cout << title << endl;
 
@@ -206,15 +206,87 @@ class transactions{
             cout << description << endl;
             cout << "=======================================" << endl;
        }
+       MyFile.close();
     }
     
     void calculateBalance()
     {
+        ifstream MyFile("transactions.txt");
+        string line;
+        float total;
+        
+        while(getline(MyFile, line))
+        {
+            //skips any blanks in file
+            if(line.empty())
+            {
+                continue;
+            }
+            getline(MyFile, line);
+            amount += stof(line); // turns the line temporarly into a float
 
+            getline(MyFile, line);
+            getline(MyFile, line);
+            getline(MyFile, line);
+            getline(MyFile, line);
+        }
+        MyFile.close();
+        //Displays the Current Balance calculated through the past transaction text file report
+        cout << "=======================================" << endl;
+        cout << "CURRENT BALANCE: $" << amount << endl;
+        cout << "=======================================" << endl;
     }
     void searchTransactions()
     {
+        string findTitle;
+        ifstream MyFile("transactions.txt");
 
+        //Asks users for title to find
+        cout << "Enter Title of transaction: ";
+        cin.ignore();
+        getline(cin, findTitle);
+
+        string title, amount, date, category, description, line;
+        bool found = false;
+
+        //Looks through transactions
+        while(getline(MyFile, line))
+        {
+            //If found display on screen
+            if(line == findTitle)
+            {
+                found = true;
+                cout << endl;
+                cout << "=======================================" << endl;
+                //Displays Transactions on screen
+                cout << "Title: ";
+                cout << line << endl;
+
+                cout << "Amount: ";
+                getline(MyFile, amount);
+                cout << amount << endl;
+
+                cout << "Date: ";
+                getline(MyFile, date);
+                cout << date << endl;
+
+                cout << "Category: ";
+                getline(MyFile, category);
+                cout << category << endl;
+
+                cout << "Description: ";
+                getline(MyFile, description);
+                cout << description << endl;
+                cout << "=======================================" << endl;
+                break;
+
+            }
+        }
+        //if not found we tell user it does no exist in there transaction
+        if(!found)
+        {
+            cout << "Transaction not found" << endl;
+        }
     }
     void spendSummary()
     {
@@ -257,7 +329,7 @@ int main()
 
     transactions part2;
     // part2.addTransaction();
-    part2.viewTransations();
-
-
+    // part2.viewTransations();
+    // part2.calculateBalance();
+    part2.searchTransactions();
 }
