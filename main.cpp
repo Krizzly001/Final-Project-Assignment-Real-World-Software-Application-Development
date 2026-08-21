@@ -5,41 +5,46 @@
 using namespace std;
 
 class frontPage{
+    // Private variables of frontPage class
     private:
     string username;
     string password;
     int introOption;
-    bool ifError = false;
+    string firstLine;
+    string secondLine;
+    string thirdLine;
+    string fourthLine;
 
+    // The only thing displayed onto the front page is the login and register options
     public:
     void mainMenu()
     {
+        // Runs at constant loop until the user has logged in properly, giving permission to access the Personal Tracker
         while(true)
         {
-            cout << "Enter an option please..." << endl;
+            // Asks user to select one of ther displayed options by entering a digit
+            cout << "Enter a number option please ..." << endl;
             cout << "1. Login" << endl;
             cout << "2. Register" << endl;
             cout << "Enter: ";
             cin >> introOption;
 
+            // Asks user for Password and Username
             if(introOption == 1)
             {
-                string firstLine;
-                string secondLine;
-                string thirdLine;
-                string fourthLine;
-
+                cout << "=== Login ===" << endl;
                 cout << "\nUsername: ";
                 cin >> username;
-                cout << "Password:" ;
+                cout << "Password: " ;
                 cin >> password;
                 
+                // Reads eachline of file data.txt
                 ifstream file("data.txt");
                 getline(file, firstLine);
                 getline(file, secondLine);
                 getline(file, thirdLine);
                 getline(file, fourthLine);
-
+                // If data in file and user input is correct, succesful login
                 if(firstLine == username && secondLine == password)
                 {
                     cout << "Logged in succesfully!" << endl;
@@ -47,17 +52,33 @@ class frontPage{
                     break;
                 }
                 else{
-                    cout << "Failed to login: try again..." << endl;
+                    cout << "Failed to login: try again...\n" << endl;
                 }
             }
+            // Asks user for FirstName, Lastname, New Password and New Username to register write on file
             else if(introOption == 2)
             {
+                cout << "=== Register ===" << endl;
+                cout << "First Name: ";
+                cin >> thirdLine;
+                cout << "Last Name: ";
+                cin >> fourthLine;
+                cout << "New Username: ";
+                cin >> firstLine;
+                cout << "New Password: ";
+                cin >> secondLine;
 
+                // Open file that already exists, then writes new info onto eachline
+                ofstream MyFile("data.txt");
+                MyFile << firstLine << endl;
+                MyFile << secondLine << endl;
+                MyFile << thirdLine << endl;
+                MyFile << fourthLine << endl;
+                cout << "Succesfully created an account!" << endl;
+                cout << "Please login...\n" << endl; //Verify again by logging in
             }
-            else{
-                cout << "Error: please try again" << endl;
-                break;
-
+            else{// Error display
+                cout << "Error: please try again...\n" << endl;
             }
         }
     }
@@ -65,22 +86,18 @@ class frontPage{
 
 int main()
 {
+    // Opening or creating a file for user
     ifstream check("data.txt");
-    if(!check)
+    if(!check) // Creates the file if doesnt exist in local file drive
     {
         cout << "=== Welcome New User to Kage Personal Expense Tracker ===\n" << endl;
     }
-    else
+    else // Greets the user, different due to the file already create, proving that its a regular user
     {
-        cout << "=== Welcome Back to Kage Personal Expense Tracker ===" << endl;
-        cout << "Loading...\n" << endl;
+        cout << "=== Welcome Back to Kage Personal Expense Tracker ===\n" << endl;    
     }
-    if(!check)
-    {
-        cout << "error" << endl;
-        
-    }
-
-    frontPage Person1;
-    Person1.mainMenu();
+    
+    // Start with the Login Page
+    frontPage part1;
+    part1.mainMenu();
 }
