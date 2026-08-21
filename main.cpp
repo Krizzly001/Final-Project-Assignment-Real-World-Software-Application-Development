@@ -39,7 +39,7 @@ class frontPage{
                 cin >> password;
                 
                 // Reads eachline of file data.txt
-                ifstream file("data.txt");
+                ifstream file("login.txt");
                 getline(file, firstLine);
                 getline(file, secondLine);
                 getline(file, thirdLine);
@@ -69,7 +69,7 @@ class frontPage{
                 cin >> secondLine;
 
                 // Open file that already exists, then writes new info onto eachline
-                ofstream MyFile("data.txt");
+                ofstream MyFile("login.txt");
                 MyFile << firstLine << endl;
                 MyFile << secondLine << endl;
                 MyFile << thirdLine << endl;
@@ -87,7 +87,7 @@ class frontPage{
 int main()
 {
     // Opening or creating a file for user
-    ifstream check("data.txt");
+    ifstream check("login.txt");
     if(!check) // Creates the file if doesnt exist in local file drive
     {
         cout << "=== Welcome New User to Kage Personal Expense Tracker ===\n" << endl;
