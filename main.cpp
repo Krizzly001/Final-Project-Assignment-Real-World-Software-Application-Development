@@ -91,6 +91,7 @@ class transactions{
     string title;
     float amount;
     string date;
+    string category;
     string description;
     string findATitle;
 
@@ -105,6 +106,8 @@ class transactions{
         cin >> amount;
         cout << "Date: ";
         cin >> date;
+        cout << "Category: ";
+        cin >> category;
         cout << "Description: ";
         cin.ignore();
         getline(cin,description);
@@ -113,6 +116,7 @@ class transactions{
         MyFile << title << endl;
         MyFile << amount << endl;
         MyFile << date << endl;
+        MyFile << category << endl;
         MyFile << description << "\n" << endl;
         MyFile.close();
         cout << "Added New Transaction" << endl;
@@ -142,6 +146,7 @@ class transactions{
                 getline(MyFile, line);
                 getline(MyFile, line);
                 getline(MyFile, line);
+                getline(MyFile, line);
                 
                 //continues the next lines
                 continue;
@@ -159,6 +164,7 @@ class transactions{
         rename ("temp.txt", "transactions.txt");
     }
 
+    
 };
 
 int main()
