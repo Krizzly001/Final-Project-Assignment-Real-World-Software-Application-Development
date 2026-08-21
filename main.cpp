@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <limits>
 using namespace std;
 
 class frontPage{
@@ -100,16 +101,22 @@ class transactions{
     void addTransaction()
     {
         cout << "Fill Out the Transaction details." << endl;
+
         cout << "Title: ";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         getline(cin, title);
+
         cout << "Amount: $";
         cin >> amount;
+
         cout << "Date: ";
         cin >> date;
+
         cout << "Category: ";
         cin >> category;
+
         cout << "Description: ";
-        cin.ignore();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         getline(cin,description);
 
         ofstream MyFile("transactions.txt", ios::app);
@@ -124,7 +131,6 @@ class transactions{
 
     void deleteTransaction()
     {
-
         //Open my transaction file and temp file
         ifstream MyFile("transactions.txt");
         ofstream Tempfile("temp.txt"); // Reprint the new file without the deleted Transaction
@@ -164,6 +170,57 @@ class transactions{
         rename ("temp.txt", "transactions.txt");
     }
 
+    void viewTransations()
+    {
+        cout << "=======================================" << endl;
+        // Acces the transaaction file history
+        ifstream MyFile("transactions.txt");
+        string title, amount, date, category, description, line;
+        
+        //Goes through each line
+       while(getline(MyFile, title))
+       { 
+            //skips blanks
+            if(title.empty())
+            {
+                continue;
+            }
+            //Displats Transactions on screen
+            cout << "Title: ";
+            cout << title << endl;
+
+            cout << "Amount: ";
+            getline(MyFile, amount);
+            cout << amount << endl;
+
+            cout << "Date: ";
+            getline(MyFile, date);
+            cout << date << endl;
+
+            cout << "Category: ";
+            getline(MyFile, category);
+            cout << category << endl;
+
+            cout << "Description: ";
+            getline(MyFile, description);
+            cout << description << endl;
+            cout << "=======================================" << endl;
+       }
+    }
+    
+    void calculateBalance()
+    {
+
+    }
+    void searchTransactions()
+    {
+
+    }
+    void spendSummary()
+    {
+
+    }
+
     
 };
 
@@ -197,7 +254,10 @@ int main()
     }
     checkT.close();
 
+
     transactions part2;
-    part2.addTransaction();
+    // part2.addTransaction();
+    part2.viewTransations();
+
 
 }
